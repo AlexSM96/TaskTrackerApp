@@ -171,6 +171,7 @@ namespace TaskTracker.Persistance.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     StartWorkDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     EndWorkDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    InWork = table.Column<bool>(type: "boolean", nullable: true),
                     Executed = table.Column<bool>(type: "boolean", nullable: true),
                     ExecutorId = table.Column<long>(type: "bigint", nullable: true),
                     AuthorId = table.Column<long>(type: "bigint", nullable: false),

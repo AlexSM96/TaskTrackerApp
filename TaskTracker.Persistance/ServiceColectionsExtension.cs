@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Persistance.TaskTracker.Persistance.Database;
 using System.Text;
 using TaskTracker.Application.Abstractions.Authentication;
 using TaskTracker.Application.Abstractions.DbContext;
@@ -14,10 +13,11 @@ using TaskTracker.Application.Services;
 using TaskTracker.Domain.Entities;
 using TaskTracker.Domain.Models;
 using TaskTracker.Domain.Options;
+using TaskTracker.Persistance.Database;
 
 namespace TaskTracker.Persistance;
 
-public static class ServiceColectionsEtension
+public static class ServiceColectionsExtension
 {
     public static WebApplicationBuilder AddTaskTrackerDb(this WebApplicationBuilder builder)
     {

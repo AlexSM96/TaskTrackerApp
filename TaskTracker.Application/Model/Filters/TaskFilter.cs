@@ -1,17 +1,18 @@
-﻿namespace TaskTracker.Application.Model.Filters
+﻿namespace TaskTracker.Application.Model.Filters;
+
+public class TaskFilter
 {
-    public class TaskFilter
-    {
-        public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-        public string? Title { get; set; }
+    public string SortOrder { get; set; } = "desc";
 
-        public string? Description { get; set; }
+    public string SortItem { get; set; } = "date";
 
-        public long? ExecutorId { get; set; }
+    public string? Title { get; set; }
 
-        public long? AuthorId { get; set; }
+    public long? ExecutorId { get; set; }
 
-        public bool? Executed { get; set; }
-    }
+    public long? AuthorId { get; set; }
+
+    public string? TaskStatus { get; set; }
 }

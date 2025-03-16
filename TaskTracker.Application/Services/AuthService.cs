@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,6 +19,19 @@ public class AuthService(IOptions<AuthOption> authOption,
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly AuthOption _authOption = authOption.Value;
+
+    public async Task<IList<UserResponseDto>> GetUsers()
+    {
+        var users = await _userManager.Users.AsNoTracking().ToListAsync();
+        List<UserResponseDto> userResponseDtos = [];
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            userResponseDtos.Add(user.ToResponseDto(roles.ToArray()));
+        }
+
+        return userResponseDtos;
+    }
 
     public async Task<UserResponseDto> Register(UserRegisterDto userResgiterDto)
     {
@@ -57,10 +71,10 @@ public class AuthService(IOptions<AuthOption> authOption,
 
     public async Task<UserResponseDto> Login(UserLoginDto userLoginDto)
     {
-        var user = await _userManager.FindByEmailAsync(userLoginDto.Login);
+        var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
         if(user is null)
         {
-            throw new Exception($"User with Login {userLoginDto.Login} not registered");
+            throw new Exception($"User with Login {userLoginDto.Email} not registered");
         }
 
         var isValidPassword = await _userManager.CheckPasswordAsync(user, userLoginDto.Password);
@@ -73,6 +87,7 @@ public class AuthService(IOptions<AuthOption> authOption,
         var roles = await _userManager.GetRolesAsync(user);
         return GenerateToken(user.ToResponseDto(roles.ToArray()));
     }
+
 
     private UserResponseDto GenerateToken(UserResponseDto userResposneDto)
     {
@@ -111,4 +126,5 @@ public class AuthService(IOptions<AuthOption> authOption,
 
         return claims;
     }
+
 }

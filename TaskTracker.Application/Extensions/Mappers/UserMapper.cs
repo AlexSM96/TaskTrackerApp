@@ -1,6 +1,5 @@
 ﻿using TaskTracker.Application.Model.UserModels;
 using TaskTracker.Domain.Entities;
-using TaskTracker.Domain.Models;
 
 namespace TaskTracker.Application.Extensions.Mappers;
 
@@ -16,5 +15,4 @@ public static class UserMapper
             Username = userEntity.UserName!,
         };
     }
-
 }

@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Persistance.TaskTracker.Persistance.Database;
+using TaskTracker.Persistance.Database;
 
 #nullable disable
 
 namespace TaskTracker.Persistance.Migrations
 {
     [DbContext(typeof(TaskTrackerDbContext))]
-    [Migration("20250308180733_Init")]
+    [Migration("20250315170257_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -158,6 +158,9 @@ namespace TaskTracker.Persistance.Migrations
 
                     b.Property<long?>("ExecutorId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool?>("InWork")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("StartWorkDate")
                         .HasColumnType("timestamp with time zone");

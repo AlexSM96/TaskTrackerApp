@@ -8,10 +8,12 @@ builder.Services
 
 builder
     .AddSwagger()
+    .AddCORS()
     .AddTaskTrackerDb()
     .AddApplicationServices()
     .AddOptions()
-    .AddBearerAuthentication();
+    .AddBearerAuthentication()
+    ;
 
 var app = builder.Build();
 
@@ -22,6 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Services.CreateDbIfNotExist();
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

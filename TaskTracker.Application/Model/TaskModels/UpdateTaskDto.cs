@@ -9,4 +9,7 @@ public class UpdateTaskDto : CreateTaskDto
     public DateTime? StartWorkDate { get; set; }
 
     public DateTime? EndWorkDate { get; set; }
+
+    public bool InWork { get; set; }
+
 }

@@ -1,8 +1,25 @@
-﻿namespace TaskTracker.Application.Model.TaskModels;
+﻿using TaskTracker.Application.Model.UserModels;
 
-public record TaskResponseDto(
-    long Id, 
-    string Title, 
-    string Description, 
-    long AuthorId,
-    long? Executor = null);
+namespace TaskTracker.Application.Model.TaskModels;
+
+public class TaskResponseDto
+{
+    public long Id { get; set; }
+
+    public string Title { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? EndWorkDate { get; set; }
+
+    public UserResponseDto? Executor { get; set; }
+
+    public UserResponseDto Author { get; set; }
+
+    public bool? Executed { get; set; }
+
+    public bool? InWork { get; set; }
+
+}

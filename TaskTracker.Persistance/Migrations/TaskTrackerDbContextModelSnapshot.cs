@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Persistance.TaskTracker.Persistance.Database;
+using TaskTracker.Persistance.Database;
 
 #nullable disable
 
@@ -155,6 +155,9 @@ namespace TaskTracker.Persistance.Migrations
 
                     b.Property<long?>("ExecutorId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool?>("InWork")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("StartWorkDate")
                         .HasColumnType("timestamp with time zone");

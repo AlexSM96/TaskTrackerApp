@@ -28,9 +28,9 @@ public class TaskTrackerService(ITaskTrackerDbContext dbContext, UserManager<Use
 
         var entityEntry = await _dbContext.Tasks.AddAsync(new TaskEntity
         {
-            Title = createTaskDto.Title,
-            Description = createTaskDto.Description,
-            AuthorId = createTaskDto.AuthorId,
+            Title = createTaskDto.Title!,
+            Description = createTaskDto.Description!,
+            AuthorId = createTaskDto.AuthorId!.Value,
             ExecutorId = executor?.Id,
             Executed = false,
         });
@@ -39,17 +39,10 @@ public class TaskTrackerService(ITaskTrackerDbContext dbContext, UserManager<Use
         return entityEntry.Entity.ToTaskResponseDto();
     }
 
-    public async Task<TaskResponseDto> UpdateTask(UpdateTaskDto updateTaskDto)
+    public async Task<TaskResponseDto?> UpdateTask(UpdateTaskDto updateTaskDto)
     {
-        var existedTask = await _dbContext.Tasks.FindAsync(updateTaskDto.Id);
-
-        if (existedTask is null)
-        {
-            throw new Exception($"Not exist task with id {updateTaskDto.Id}");
-        }
-
         var executor = await _userManager.FindByIdAsync(updateTaskDto.ExecutorId!.Value.ToString());
-        var author = await _userManager.FindByIdAsync(updateTaskDto.AuthorId.ToString());
+        var author = await _userManager.FindByIdAsync(updateTaskDto.AuthorId!.Value.ToString());
 
         var task = await _dbContext.Tasks
             .Where(t => t.Id == updateTaskDto.Id)
@@ -57,16 +50,21 @@ public class TaskTrackerService(ITaskTrackerDbContext dbContext, UserManager<Use
                 .SetProperty(t => t.StartWorkDate, updateTaskDto.StartWorkDate)
                 .SetProperty(t => t.EndWorkDate, updateTaskDto.EndWorkDate)
                 .SetProperty(t => t.Executed, updateTaskDto.Executed)
-                .SetProperty(t => t.Author, author)
-                .SetProperty(t => t.Executor, executor));
+                .SetProperty(t => t.AuthorId, author!.Id)
+                .SetProperty(t => t.ExecutorId, executor!.Id)
+                .SetProperty(t => t.InWork, updateTaskDto.InWork)
+                .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
+            );
 
-        return existedTask.ToTaskResponseDto();
+        return (await _dbContext.Tasks.FindAsync(updateTaskDto.Id))?.ToTaskResponseDto()!;
     }
 
     public async Task<TaskListDto> GetTasks(TaskFilter filter)
     {
         return (await _dbContext.Tasks
             .AsNoTracking()
+            .Include(x => x.Author)
+            .Include(x => x.Executor)
             .Filter(filter)
             .ToListAsync())
             .ToTaskListDto();

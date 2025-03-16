@@ -4,7 +4,7 @@ using TaskTracker.Application.Abstractions.DbContext;
 using TaskTracker.Domain.Entities;
 using TaskTracker.Persistance.Database.EntityConfiguration;
 
-namespace Persistance.TaskTracker.Persistance.Database;
+namespace TaskTracker.Persistance.Database;
 
 public class TaskTrackerDbContext(DbContextOptions<TaskTrackerDbContext> options)
     : IdentityDbContext<UserEntity, UserRoleEntity, long>(options), ITaskTrackerDbContext
