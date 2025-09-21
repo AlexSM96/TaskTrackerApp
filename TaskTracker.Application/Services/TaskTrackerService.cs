@@ -10,7 +10,9 @@ using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Services;
 
-public class TaskTrackerService(ITaskTrackerDbContext dbContext, UserManager<UserEntity> userManager) : ITaskTrackService
+public class TaskTrackerService(
+    ITaskTrackerDbContext dbContext, 
+    UserManager<UserEntity> userManager) : ITaskTrackService
 {
     private readonly ITaskTrackerDbContext _dbContext = dbContext;
     private readonly UserManager<UserEntity> _userManager = userManager;
@@ -32,21 +34,29 @@ public class TaskTrackerService(ITaskTrackerDbContext dbContext, UserManager<Use
             Description = createTaskDto.Description!,
             AuthorId = createTaskDto.AuthorId!.Value,
             ExecutorId = executor?.Id,
-            Executed = false,
+            Executed = false
         });
 
         await _dbContext.SaveChangesAsync();
         return entityEntry.Entity.ToTaskResponseDto();
     }
 
-    public async Task<TaskResponseDto?> UpdateTask(UpdateTaskDto updateTaskDto)
+    public async Task<TaskResponseDto> UpdateTask(UpdateTaskDto updateTaskDto)
     {
         var executor = await _userManager.FindByIdAsync(updateTaskDto.ExecutorId!.Value.ToString());
         var author = await _userManager.FindByIdAsync(updateTaskDto.AuthorId!.Value.ToString());
+        var currentUser = await _userManager.FindByIdAsync(updateTaskDto.CurrentUserId.ToString());
+
+        if (currentUser != author) 
+        {
+            throw new Exception("Only Author can change task");
+        }
 
         var task = await _dbContext.Tasks
             .Where(t => t.Id == updateTaskDto.Id)
             .ExecuteUpdateAsync(sp => sp
+                .SetProperty(t => t.Title, updateTaskDto.Title)
+                .SetProperty(t => t.Description, updateTaskDto.Description)
                 .SetProperty(t => t.StartWorkDate, updateTaskDto.StartWorkDate)
                 .SetProperty(t => t.EndWorkDate, updateTaskDto.EndWorkDate)
                 .SetProperty(t => t.Executed, updateTaskDto.Executed)

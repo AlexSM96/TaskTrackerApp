@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TaskTracker.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -162,6 +162,35 @@ namespace TaskTracker.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrganizationItems",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: true),
+                    ParentId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrganizationItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrganizationItems_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_OrganizationItems_OrganizationItems_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "OrganizationItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tasks",
                 columns: table => new
                 {
@@ -241,6 +270,16 @@ namespace TaskTracker.Persistance.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrganizationItems_ParentId",
+                table: "OrganizationItems",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganizationItems_UserId",
+                table: "OrganizationItems",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_AuthorId",
                 table: "Tasks",
                 column: "AuthorId");
@@ -268,6 +307,9 @@ namespace TaskTracker.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "OrganizationItems");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

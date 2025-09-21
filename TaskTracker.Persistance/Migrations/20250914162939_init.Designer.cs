@@ -12,8 +12,8 @@ using TaskTracker.Persistance.Database;
 namespace TaskTracker.Persistance.Migrations
 {
     [DbContext(typeof(TaskTrackerDbContext))]
-    [Migration("20250315170257_Init")]
-    partial class Init
+    [Migration("20250914162939_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,40 @@ namespace TaskTracker.Persistance.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("TaskTracker.Domain.Entities.OrganizationItemEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrganizationItems");
                 });
 
             modelBuilder.Entity("TaskTracker.Domain.Entities.TaskEntity", b =>
@@ -343,6 +377,23 @@ namespace TaskTracker.Persistance.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TaskTracker.Domain.Entities.OrganizationItemEntity", b =>
+                {
+                    b.HasOne("TaskTracker.Domain.Entities.OrganizationItemEntity", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("TaskTracker.Domain.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TaskTracker.Domain.Entities.TaskEntity", b =>
                 {
                     b.HasOne("TaskTracker.Domain.Entities.UserEntity", "Author")
@@ -358,6 +409,11 @@ namespace TaskTracker.Persistance.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Executor");
+                });
+
+            modelBuilder.Entity("TaskTracker.Domain.Entities.OrganizationItemEntity", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

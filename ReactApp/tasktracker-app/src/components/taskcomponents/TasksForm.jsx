@@ -3,10 +3,12 @@ import Filter from "../filtercomponents/Filter";
 import CreateTaskForm from "./CreateTaskForm";
 import TaskCard from "./TaskCard";
 import { fetchTasks, createTask, updateTask } from '../../services/Tasks'
+import { fetchUsers } from "../../services/Users";
 import { Heading } from "@chakra-ui/react";
 
 export default function TasksForm (){
     const [tasks, setTasks] = useState([])
+    const [users, setUsers] = useState([])
     const [filter, setFilter] = useState({
       search: "",
       sortItem: "date",
@@ -27,6 +29,20 @@ export default function TasksForm (){
   
       fetchData()
     }, [filter])
+
+    useEffect(()=> {
+      const fetchData = async () => {
+        try{
+          var fetchedUsers = await fetchUsers()
+          setUsers(fetchedUsers)
+        }
+        catch(err){
+          throw err;
+        }
+      }
+  
+      fetchData()
+    }, [])
   
     const onCreate = async (task) => {
       try{
@@ -39,32 +55,37 @@ export default function TasksForm (){
     }
 
     const onInWorkUpdate = async (task) =>{
-          const response = await updateTask(task, true, null)
+          const response = await updateTask(task, undefined, true, null)
           let fetchedTasks = await fetchTasks(filter)
           setTasks(fetchedTasks)
         }
     
     const onExecuteUpdate = async (task) => {
-      const response = await updateTask(task, false, true);
+      const response = await updateTask(task, undefined, false, true);
       let fetchedTasks = await fetchTasks(filter)
       setTasks(fetchedTasks)
     }
     
+    const onUpdate = async (task) => {
+      const response = await updateTask(task, task.executorId, task.inWork, false)
+      let fetchedTasks = await fetchTasks(filter)
+      setTasks(fetchedTasks)
+    }
 
     return (
         <div className='p-8 flex flex-row justify-start items-start gap-12'>
             <div className='flex flex-col w-1/3 gap-10'>
-                <CreateTaskForm onCreate={onCreate}/>
+                <CreateTaskForm users={users} onCreate={onCreate}/>
                 <Filter filter={filter} setFilter={setFilter}/>
             </div>
             <ul className='flex flex-col gap-5 w-2/3'>
                 {tasks 
                   ? tasks.map(task => (
                         <li key={task.id}>
-                            <TaskCard task={task} onInWorkUpdate={onInWorkUpdate} onExecuteUpdate={onExecuteUpdate} />
+                            <TaskCard task={task} users={users} onInWorkUpdate={onInWorkUpdate} onExecuteUpdate={onExecuteUpdate} onUpdate={onUpdate} />
                         </li>
                     ))
-                  : <li><Heading>Список задач пуст</Heading></li> 
+                  : ( <li><Heading>Список задач пуст</Heading></li> ) 
                 }
             </ul>
         </div>

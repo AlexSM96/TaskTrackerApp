@@ -1,7 +1,8 @@
 import { Card, Heading, Text, Badge, Button } from '@chakra-ui/react'
 import { formatDate } from '../../services/DateFormat'
+import InfoTaskForm from './InfoTaskForm'
 
-export default function TaskCard({ task , onExecuteUpdate, onInWorkUpdate }){
+export default function TaskCard({ task, users, onExecuteUpdate, onInWorkUpdate, onUpdate }){
 
     const handleInWorkUpdate = (e) => {
       onInWorkUpdate(task)
@@ -20,9 +21,11 @@ export default function TaskCard({ task , onExecuteUpdate, onInWorkUpdate }){
                {task.executed 
                 ? <Badge colorPalette={"green"}>Задача закрыта</Badge>
                 : task.inWork 
-                  ? <Badge colorPalette={"yellow"}>В работе</Badge> 
+                  ? <Badge colorPalette={"yellow"}>В работе</Badge>
+                     
                   : <Badge colorPalette={"purple"}>Новая задача</Badge>
                 }
+                <InfoTaskForm task={task} users={users} onUpdate={onUpdate} />
                </div>
             </Card.Header>
             <Card.Body color="fg.muted" bgColor="gray.100">

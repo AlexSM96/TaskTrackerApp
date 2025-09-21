@@ -7,7 +7,7 @@ public interface ITaskTrackService
 {
     public Task<TaskListDto> GetTasks(TaskFilter filter);
 
-    public Task<TaskResponseDto?> CreateTask(CreateTaskDto createTaskDto);
+    public Task<TaskResponseDto> CreateTask(CreateTaskDto createTaskDto);
 
-    public Task<TaskResponseDto?> UpdateTask(UpdateTaskDto updateTaskDto);
+    public Task<TaskResponseDto> UpdateTask(UpdateTaskDto updateTaskDto);
 }

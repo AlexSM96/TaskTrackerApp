@@ -15,4 +15,12 @@ public static class UserMapper
             Username = userEntity.UserName!,
         };
     }
+
+    public static UserDto ToDto(this UserEntity userEntity)
+    {
+        return new UserDto(
+            userEntity.Id, 
+            userEntity.UserName ?? string.Empty, 
+            userEntity.Email ?? string.Empty);
+    }
 }

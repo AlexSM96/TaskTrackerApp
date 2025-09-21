@@ -12,7 +12,7 @@ public class TaskTrackerController(ITaskTrackService taskTrackService) : ApiBase
 {
     private readonly ITaskTrackService _taskTrackService = taskTrackService;
 
-    [Authorize]
+   // [Authorize]
     [HttpGet("get")]
     public async Task<IActionResult> GetTasks([FromQuery] TaskFilter filter)
     {
@@ -20,7 +20,7 @@ public class TaskTrackerController(ITaskTrackService taskTrackService) : ApiBase
         return Ok(tasks.TaskDtos);
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateTask([FromBody] CreateTaskDto taskDto)
     {
@@ -28,12 +28,11 @@ public class TaskTrackerController(ITaskTrackService taskTrackService) : ApiBase
         return Ok(createdTask);
     }
 
-    [Authorize]
+   // [Authorize]
     [HttpPut("update")]
     public async Task<IActionResult> UpdateTask(UpdateTaskDto updateTaskDto)
     {
         var executedTask = await _taskTrackService.UpdateTask(updateTaskDto);
-
         return Ok(executedTask);
     }
 }

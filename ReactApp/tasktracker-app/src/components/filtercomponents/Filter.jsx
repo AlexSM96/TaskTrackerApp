@@ -16,7 +16,7 @@ export default function Filter({filter, setFilter}){
             </NativeSelect.Root>
             <NativeSelect.Root onChange={(event) => setFilter({...filter, taskStatus: event.target.value})}>
                 <NativeSelect.Field>
-                    <option defaultValue={''}>Все</option>
+                    <option value={''}>Все</option>
                     <option value={'inWork'}>В работе</option>
                     <option value={'executed'}>Закрытые задачи</option>
                 </NativeSelect.Field>

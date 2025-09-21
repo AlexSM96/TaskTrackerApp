@@ -11,5 +11,9 @@ public interface ITaskTrackerDbContext
 
     public DbSet<TaskEntity> Tasks { get; }
 
+    public DbSet<OrganizationItemEntity> OrganizationItems { get; } 
+
+    public DbSet<CommentEntity> Comments { get; }
+
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -3,6 +3,8 @@
 public class UpdateTaskDto : CreateTaskDto
 {
     public long Id { get; set; }
+
+    public long CurrentUserId { get; set; }
     
     public bool? Executed { get; set; }
 

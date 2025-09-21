@@ -1,12 +1,10 @@
 import { Input, Button, Textarea, NativeSelect } from '@chakra-ui/react' 
 import { useRef, useState, useEffect } from 'react'
-import { fetchUsers } from '../../services/Users';
 
-export default function CreateTaskForm({onCreate}) {
+export default function CreateTaskForm({users, onCreate}) {
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
     const [task, setTask] = useState(null)
-    const [users, setUser] = useState([])
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -24,22 +22,6 @@ export default function CreateTaskForm({onCreate}) {
               }
         }
     }
-
-    useEffect(() => {
-        const fetchUserAsync = async () => {
-            try{
-                let fetchedUsers = await fetchUsers()
-                setUser(fetchedUsers)
-            }
-            catch(err){
-                throw err;
-            }
-        }
-    
-        fetchUserAsync()
-    }, [])
-
-    
 
     return (
         <form className='w-full flex flex-col gap-3' onSubmit={onSubmit}>

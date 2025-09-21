@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom"
+import { Avatar } from "@chakra-ui/react"
 import TaskForm from '../taskcomponents/TasksForm'
 import Register from '../accountcomponents/RegisterForm'
 import Login from '../accountcomponents/LoginForm'
 import KanbanForm from "../taskcomponents/KanbanForm"
+import OrgItemsForm from "../orgitemcomponents/OrgItemsForm"
 import { axiosInstance } from "../../services/AxiosWithAuthorization"
 
 
@@ -26,12 +28,17 @@ export default function RouteMunu(){
                     <div className="flex space-x-4">
                       <a href="/tasks" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" aria-current="page">Главная страница</a>
                       <a href="/kanban" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Канбан</a>
-                      <a href="/users" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Сотрудники</a>
+                      <a href="/orgitems" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Огргструктура</a>
                     </div>
                   </div>
                   <div className="absolute right-0 z-0 mt-0 w-50 origin-top-right flex space-x-4">
                       {user 
-                        ? <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">{user.email}</a>
+                        ? <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">
+                            <Avatar.Root size={'2xs'} key={user.email} colorPalette={'yellow'}>
+                              <Avatar.Fallback name={user.email} />
+                              <Avatar.Image src="#" />
+                            </Avatar.Root>
+                          </a>
                         : <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700" href="/register">Регистрация</a>
                       }
                      
@@ -49,6 +56,7 @@ export default function RouteMunu(){
             <Route path="/register" element={<Register />} />
             <Route path="/tasks" element={<TaskForm />}/>
             <Route path="/kanban" element={<KanbanForm />}/>
+            <Route path="/orgitems" element={<OrgItemsForm />} />
           </Routes>
         </div>
       </Router>

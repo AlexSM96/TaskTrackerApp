@@ -14,7 +14,8 @@ using TaskTracker.Domain.Options;
 
 namespace TaskTracker.Application.Services;
 
-public class AuthService(IOptions<AuthOption> authOption,
+public class AuthService(
+    IOptions<AuthOption> authOption,
     UserManager<UserEntity> userManager) : IAuthService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
@@ -126,5 +127,4 @@ public class AuthService(IOptions<AuthOption> authOption,
 
         return claims;
     }
-
 }

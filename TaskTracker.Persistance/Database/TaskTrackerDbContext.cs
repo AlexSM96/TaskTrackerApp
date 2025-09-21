@@ -11,11 +11,17 @@ public class TaskTrackerDbContext(DbContextOptions<TaskTrackerDbContext> options
 {
     public DbSet<TaskEntity> Tasks { get; set; }
 
+    public DbSet<OrganizationItemEntity> OrganizationItems { get; set; }
+
+    public DbSet<CommentEntity> Comments { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new TaskEntityConfiguration());
         builder.ApplyConfiguration(new RoleEntityConfiguration());
         builder.ApplyConfiguration(new UserEntityConfiguration());
+        builder.ApplyConfiguration(new OrganizationItemConfiguration());
+        builder.ApplyConfiguration(new CommentEntityConfiguration());
         base.OnModelCreating(builder);
     }
 }
