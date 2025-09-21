@@ -1,9 +1,10 @@
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react"
 import UpdateTaskForm from "./UpdateTaskForm.jsx";
+import TaskCommentsForm from "../commentcomponents/TaskCommentsForm.jsx";
 
 export default function InfoTaskForm({task, users, onUpdate}){
     return (
-        <Dialog.Root size="cover" placement="center" motionPreset="slide-in-bottom">
+        <Dialog.Root size="cover" placement="center" motionPreset="slide-in-bottom" scrollBehavior="inside">
             <Dialog.Trigger asChild>
                 <Button variant="outline" size="sm">
                 &#x270e;
@@ -21,6 +22,7 @@ export default function InfoTaskForm({task, users, onUpdate}){
                     </Dialog.Header>
                     <Dialog.Body>
                         <UpdateTaskForm task={task} users={users} onUpdate={onUpdate}/>
+                        <TaskCommentsForm taskId={task.id} />
                     </Dialog.Body>
                 </Dialog.Content>
                 </Dialog.Positioner>

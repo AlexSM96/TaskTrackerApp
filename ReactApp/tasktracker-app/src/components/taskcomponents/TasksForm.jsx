@@ -55,19 +55,19 @@ export default function TasksForm (){
     }
 
     const onInWorkUpdate = async (task) =>{
-          const response = await updateTask(task, undefined, true, null)
+          const response = await updateTask(task, 1, null)
           let fetchedTasks = await fetchTasks(filter)
           setTasks(fetchedTasks)
         }
     
     const onExecuteUpdate = async (task) => {
-      const response = await updateTask(task, undefined, false, true);
+      const response = await updateTask(task, 2, null);
       let fetchedTasks = await fetchTasks(filter)
       setTasks(fetchedTasks)
     }
     
     const onUpdate = async (task) => {
-      const response = await updateTask(task, task.executorId, task.inWork, false)
+      const response = await updateTask(task, task.taskWorkStatus, task.executorId)
       let fetchedTasks = await fetchTasks(filter)
       setTasks(fetchedTasks)
     }
@@ -82,7 +82,7 @@ export default function TasksForm (){
                 {tasks 
                   ? tasks.map(task => (
                         <li key={task.id}>
-                            <TaskCard task={task} users={users} onInWorkUpdate={onInWorkUpdate} onExecuteUpdate={onExecuteUpdate} onUpdate={onUpdate} />
+                            <TaskCard task={task} users={users} onInWorkUpdate={onInWorkUpdate} onExecuteUpdate={onExecuteUpdate} onUpdate={onUpdate} width={"100%"} />
                         </li>
                     ))
                   : ( <li><Heading>Список задач пуст</Heading></li> ) 

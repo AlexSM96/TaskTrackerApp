@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using TaskTracker.Application.Abstractions.Authentication;
 using TaskTracker.Application.Extensions.Mappers;
 using TaskTracker.Application.Model.UserModels;
@@ -23,7 +24,10 @@ public class AuthService(
 
     public async Task<IList<UserResponseDto>> GetUsers()
     {
-        var users = await _userManager.Users.AsNoTracking().ToListAsync();
+        var users = await _userManager.Users
+            .AsNoTracking()
+            .ToListAsync();
+
         List<UserResponseDto> userResponseDtos = [];
         foreach (var user in users)
         {
@@ -45,7 +49,8 @@ public class AuthService(
         var createdUser = await _userManager.CreateAsync(new UserEntity
         {
             Email = userResgiterDto.Email,
-            UserName = userResgiterDto.Username,
+            UserName = Regex.Replace(userResgiterDto.Email, @"[^a-zA-Z]", ""),
+            FIO = userResgiterDto.FIO,
         }, userResgiterDto.Password);
 
         if (!createdUser.Succeeded)
@@ -111,13 +116,13 @@ public class AuthService(
         return userResposneDto;
     }
 
-    private ClaimsIdentity GenerateClaims(UserResponseDto userResposneDto)
+    private ClaimsIdentity GenerateClaims(UserResponseDto userResponseDto)
     {
         var claims = new ClaimsIdentity();
-        claims.AddClaim(new Claim(ClaimTypes.Name, userResposneDto.Email!));
-        claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, userResposneDto.Id.ToString()));
+        claims.AddClaim(new Claim(ClaimTypes.Name, userResponseDto.Email!));
+        claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, userResponseDto.Id.ToString()));
 
-        foreach (var role in userResposneDto.Roles!)
+        foreach (var role in userResponseDto.Roles!)
         {
             if (!string.IsNullOrWhiteSpace(role))
             {

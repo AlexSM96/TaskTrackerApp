@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using TaskTracker.Application.Abstractions.CommentServices;
 using TaskTracker.Application.Abstractions.OrganizationItem;
 using TaskTracker.Application.Abstractions.TaskServices;
 using TaskTracker.Application.Services;
@@ -12,7 +13,9 @@ public static class ServiceCollectionsExtension
     {
         builder.Services
             .AddScoped<ITaskTrackService, TaskTrackerService>()
-            .AddScoped<IOrganizationItemService, OrganizationItemService>();
+            .AddScoped<IOrganizationItemService, OrganizationItemService>()
+            .AddScoped<ICommentService, CommentService>();
+        
         return builder;
     }
 }

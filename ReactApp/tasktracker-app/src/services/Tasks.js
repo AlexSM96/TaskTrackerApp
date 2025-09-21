@@ -33,20 +33,20 @@ export const createTask = async (task) => {
     }
 }
 
-export const updateTask = async (task, executorId, inWork, executed) => {
+export const updateTask = async (task, taskWorkStatus, executorId) => {
     try{
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let newExecutorId = executorId ? executorId : currentUser.id;
         const response = await axiosInstance.put("/tasks/update", {
             id: task.id,
             title: task.title,
             description: task.description,
             authorId: task.author.id,
-            executed: executed,
-            executorId: executorId ?? currentUser.id,
+            executorId: newExecutorId,
             currentUserId: currentUser.id,
-            inWork: inWork,
             startWorkDate: task.startWorkDate,
-            endWorkDate: task.endWorkDate
+            endWorkDate: task.endWorkDate,
+            taskWorkStatus: taskWorkStatus
         })
 
         return response.data;

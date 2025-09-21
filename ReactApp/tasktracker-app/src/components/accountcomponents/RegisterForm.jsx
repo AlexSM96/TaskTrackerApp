@@ -6,7 +6,7 @@ const Register = ({onLogin}) => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [username, setUsername] = useState('');
+  const [fio, setFIO] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('')
@@ -18,17 +18,17 @@ const Register = ({onLogin}) => {
 
   useEffect(() => {
     setErrMsg('')
-  }, [username, email, password])
+  }, [fio, email, password])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axiosInstance.post('/accounts/register' , { username, email, password });
+      const response = await axiosInstance.post('/accounts/register' , { fio, email, password });
       const token = response?.data?.token;
       const user = { 
         id: response?.data?.id, 
         email: response?.data?.email,
-        username: response?.data?.username,
+        fio: response?.data?.fio,
         roles: response?.data?.roles
       }
 
@@ -80,11 +80,11 @@ const Register = ({onLogin}) => {
             <label className="block text-sm/6 font-medium text-gray-900">ФИО</label>
             <div className="mt-2">
               <input type="text" 
-                name="login" 
-                autoComplete="login" 
+                name="fio" 
+                autoComplete="fio" 
                 ref={userRef}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                onChange={(e) => setUsername(e.target.value)} 
+                onChange={(e) => setFIO(e.target.value)} 
                 required/>
             </div>
           </div>

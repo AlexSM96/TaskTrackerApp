@@ -1,4 +1,5 @@
 ﻿using TaskTracker.Application.Model.UserModels;
+using TaskTracker.Domain.Models;
 
 namespace TaskTracker.Application.Model.TaskModels;
 
@@ -18,8 +19,6 @@ public class TaskResponseDto
 
     public UserResponseDto Author { get; set; }
 
-    public bool? Executed { get; set; }
-
-    public bool? InWork { get; set; }
+    public TaskWorkStatus TaskWorkStatus { get; set; }
 
 }

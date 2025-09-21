@@ -15,6 +15,8 @@ namespace TaskTracker.Application.Services
             return await _context.Comments
                 .AsNoTracking()
                 .Where(x => x.TaskId == taskId)
+                .Include(x => x.Task)
+                .Include(x => x.Author)
                 .Select(x => x.ToDto())
                 .ToListAsync();
         }

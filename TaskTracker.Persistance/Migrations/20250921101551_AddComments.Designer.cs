@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskTracker.Persistance.Database;
@@ -11,9 +12,11 @@ using TaskTracker.Persistance.Database;
 namespace TaskTracker.Persistance.Migrations
 {
     [DbContext(typeof(TaskTrackerDbContext))]
-    partial class TaskTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250921101551_AddComments")]
+    partial class AddComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,8 +223,14 @@ namespace TaskTracker.Persistance.Migrations
                     b.Property<DateTime?>("EndWorkDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool?>("Executed")
+                        .HasColumnType("boolean");
+
                     b.Property<long?>("ExecutorId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool?>("InWork")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("StartWorkDate")
                         .HasColumnType("timestamp with time zone");
@@ -233,9 +242,6 @@ namespace TaskTracker.Persistance.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("WorkStatus")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -267,10 +273,6 @@ namespace TaskTracker.Persistance.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("FIO")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");

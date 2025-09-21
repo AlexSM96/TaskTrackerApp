@@ -34,7 +34,7 @@ public class TaskTrackerService(
             Description = createTaskDto.Description!,
             AuthorId = createTaskDto.AuthorId!.Value,
             ExecutorId = executor?.Id,
-            Executed = false
+            WorkStatus = Domain.Models.TaskWorkStatus.None
         });
 
         await _dbContext.SaveChangesAsync();
@@ -59,10 +59,9 @@ public class TaskTrackerService(
                 .SetProperty(t => t.Description, updateTaskDto.Description)
                 .SetProperty(t => t.StartWorkDate, updateTaskDto.StartWorkDate)
                 .SetProperty(t => t.EndWorkDate, updateTaskDto.EndWorkDate)
-                .SetProperty(t => t.Executed, updateTaskDto.Executed)
+                .SetProperty(t => t.WorkStatus, updateTaskDto.TaskWorkStatus)
                 .SetProperty(t => t.AuthorId, author!.Id)
                 .SetProperty(t => t.ExecutorId, executor!.Id)
-                .SetProperty(t => t.InWork, updateTaskDto.InWork)
                 .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
             );
 

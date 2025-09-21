@@ -21,9 +21,7 @@ public static class TaskFilterExtension
                   && (string.IsNullOrWhiteSpace(filter.Title) || x.Title.ToLower().Contains(filter.Title.ToLower()))
                   && (filter.ExecutorId == null || x.ExecutorId == filter.ExecutorId)
                   && (filter.AuthorId == null || x.AuthorId == filter.AuthorId)
-                  && (string.IsNullOrWhiteSpace(filter.TaskStatus) 
-                      || (filter.TaskStatus == "inWork" && x.InWork == true)
-                      || (filter.TaskStatus == "executed" && x.Executed == true))
+                  && (filter.TaskStatus == null || (int)x.WorkStatus == filter.TaskStatus.Value)    
              );
 
         return filteredData = filter.SortOrder.ToLower() == "desc"

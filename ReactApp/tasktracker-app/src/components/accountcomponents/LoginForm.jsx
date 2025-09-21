@@ -28,7 +28,7 @@ const Login = () => {
       const user = { 
         id: response?.data?.id, 
         email: response?.data?.email,
-        username: response?.data?.username,
+        fio: response?.data?.fio,
         roles: response?.data?.roles
       }
 

@@ -1,22 +1,28 @@
 import { Heading } from "@chakra-ui/react"
 import TaskCard from "./TaskCard"
 
-export default function KanbanTaskCard({status, filteredTasks, onInWorkUpdate, onExecuteUpdate}){
+export default function KanbanTaskCard({status, users, filteredTasks, onInWorkUpdate, onExecuteUpdate, onUpdate}){
     return (
         <>
             <Heading size={"md"} className='font-bold text-x2 grow'>{status}</Heading>
-            <div className="m-5">
-            <ul className='flex flex-col gap-3 w-100'>
-                    {filteredTasks 
-                        ? filteredTasks.map(task => (
-                            <li key={task.id}>
-                                <TaskCard task={task} onInWorkUpdate={onInWorkUpdate} onExecuteUpdate={onExecuteUpdate}/>
-                            </li>
-                        ))
-                        : <li><Heading>Список задач пуст</Heading></li> 
-                    }
-                </ul>
-            </div>
+            
+            <ul className='flex flex-col gap-3 w-100 m-2'>
+                {filteredTasks 
+                    ? filteredTasks.sort((f,s) => s.createdAt - f.createdAt).map(task => (
+                        <li key={task.id}>
+                            <TaskCard 
+                                task={task}
+                                users={users} 
+                                onInWorkUpdate={onInWorkUpdate} 
+                                onExecuteUpdate={onExecuteUpdate} 
+                                onUpdate={onUpdate} 
+                                width={"500px"}/>
+                        </li>
+                    ))
+                    : <li><Heading>Список задач пуст</Heading></li> 
+                }
+            </ul>
+            
         </>                    
     )
 }

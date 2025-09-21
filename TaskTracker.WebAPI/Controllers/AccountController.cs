@@ -30,7 +30,7 @@ public class AccountController(IAuthService authService) : ApiBaseController
     }
 
 
-    [Authorize]
+   // [Authorize]
     [HttpGet("getusers")]
     public async Task<IActionResult> GetUsers()
     {

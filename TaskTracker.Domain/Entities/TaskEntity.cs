@@ -1,4 +1,5 @@
 ﻿using TaskTracker.Domain.Entities.Base;
+using TaskTracker.Domain.Models;
 
 namespace TaskTracker.Domain.Entities;
 
@@ -12,9 +13,7 @@ public class TaskEntity : BaseEntity
 
     public DateTime? EndWorkDate { get; set; }
 
-    public bool? InWork { get; set; }
-
-    public bool? Executed { get; set; }
+    public TaskWorkStatus WorkStatus { get; set; }
 
     public long? ExecutorId { get; set; }
 

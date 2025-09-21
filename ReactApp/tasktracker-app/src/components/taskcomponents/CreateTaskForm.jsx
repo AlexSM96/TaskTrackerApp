@@ -41,8 +41,8 @@ export default function CreateTaskForm({users, onCreate}) {
                 <NativeSelect.Field>
                     <option defaultValue={undefined}>Выбрать исполнителя</option>
                     {
-                        users.map(u => (
-                            <option key={u.email} value={u.id}>{u.username}</option>
+                        users?.map(u => (
+                            <option key={u.email} value={u.id}>{u.fio}</option>
                         ))
                     }
                 </NativeSelect.Field>

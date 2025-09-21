@@ -13,6 +13,7 @@ public static class UserMapper
             Roles = roles,
             Email = userEntity.Email!,
             Username = userEntity.UserName!,
+            FIO = userEntity.FIO
         };
     }
 
@@ -20,7 +21,8 @@ public static class UserMapper
     {
         return new UserDto(
             userEntity.Id, 
-            userEntity.UserName ?? string.Empty, 
-            userEntity.Email ?? string.Empty);
+            userEntity.FIO, 
+            userEntity.Email ?? "Email не указан"
+            );
     }
 }

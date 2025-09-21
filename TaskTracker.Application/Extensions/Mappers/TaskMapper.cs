@@ -13,8 +13,7 @@ public static class TaskMapper
             Id = taskEntity.Id,
             Title = taskEntity.Title,
             Description = taskEntity.Description,
-            Executed = taskEntity.Executed,
-            InWork = taskEntity.InWork,
+            TaskWorkStatus = taskEntity.WorkStatus,
             EndWorkDate = taskEntity.EndWorkDate,
             CreatedAt = taskEntity.CreatedAt,
             Author = new UserResponseDto()
@@ -30,7 +29,6 @@ public static class TaskMapper
                 Username = taskEntity.Executor?.UserName
             } 
         };
-
     }
 
     public static TaskListDto ToTaskListDto(this IEnumerable<TaskEntity> taskEntities)
