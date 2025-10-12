@@ -3,5 +3,8 @@
 namespace TaskTracker.WebAPI.Controllers;
 
 [ApiController]
-public class ApiBaseController : ControllerBase { }
+public class ApiBaseController : ControllerBase 
+{
+    
+}
 

@@ -26,7 +26,6 @@ export default function CreateCommentForm({taskId, onAddComment}){
                     type='submit'
                 >Добавить комментарий</Button>
             </form>
-           
         </>
     );
 }

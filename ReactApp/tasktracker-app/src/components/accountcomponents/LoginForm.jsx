@@ -29,7 +29,8 @@ const Login = () => {
         id: response?.data?.id, 
         email: response?.data?.email,
         fio: response?.data?.fio,
-        roles: response?.data?.roles
+        roles: response?.data?.roles,
+        photo: response?.data?.photo
       }
 
       localStorage.setItem('currentUser', JSON.stringify(user));

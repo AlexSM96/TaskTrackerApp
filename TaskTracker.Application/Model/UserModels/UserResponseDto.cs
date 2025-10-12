@@ -9,6 +9,8 @@ public record UserResponseDto
     public string? Token { get; set; }
 
     public string? FIO { get; set; }
+
+    public string? Photo { get; set; }
 }
 
 

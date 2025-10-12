@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from 'react';
 import { Avatar } from "@chakra-ui/react"
 import TaskForm from '../taskcomponents/TasksForm'
 import Register from '../accountcomponents/RegisterForm'
 import Login from '../accountcomponents/LoginForm'
 import KanbanForm from "../taskcomponents/KanbanForm"
 import OrgItemsForm from "../orgitemcomponents/OrgItemsForm"
+import UserPageForm from "../accountcomponents/UserPageForm"
 import { axiosInstance } from "../../services/AxiosWithAuthorization"
+import { fetchUsers } from '../../services/Users';
 
 
 const logout = (e) => {
@@ -15,7 +18,18 @@ const logout = (e) => {
 };
 
 export default function RouteMunu(){
-    const user = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const [user, setUser] = useState({});
+      useEffect(() => {
+        const fetchData = async () => {
+            const users = await fetchUsers();
+            const curr = users.filter(x => x.id === currentUser.id)[0];
+            setUser(curr);
+        }
+    
+        fetchData()
+      }, [])
+     
     
     return (
       <Router>
@@ -33,10 +47,11 @@ export default function RouteMunu(){
                   </div>
                   <div className="absolute right-0 z-0 mt-0 w-50 origin-top-right flex space-x-4">
                       {user 
-                        ? <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">
-                            <Avatar.Root size={'2xs'} key={user.email} colorPalette={'yellow'}>
-                              <Avatar.Fallback name={user.email} />
-                              <Avatar.Image src="#" />
+                        ? <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700" 
+                             href="/userpage">
+                            <Avatar.Root size={'2xs'} key={user.email} >
+                              <Avatar.Fallback name={user.fio} />
+                              <Avatar.Image src={user.photo}  />
                             </Avatar.Root>
                           </a>
                         : <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700" href="/register">Регистрация</a>
@@ -57,6 +72,7 @@ export default function RouteMunu(){
             <Route path="/tasks" element={<TaskForm />}/>
             <Route path="/kanban" element={<KanbanForm />}/>
             <Route path="/orgitems" element={<OrgItemsForm />} />
+            <Route path="/userpage" element={<UserPageForm />} />
           </Routes>
         </div>
       </Router>

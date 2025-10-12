@@ -50,7 +50,7 @@ public class AuthService(
         {
             Email = userResgiterDto.Email,
             UserName = Regex.Replace(userResgiterDto.Email, @"[^a-zA-Z]", ""),
-            FIO = userResgiterDto.FIO,
+            FIO = userResgiterDto.FIO
         }, userResgiterDto.Password);
 
         if (!createdUser.Succeeded)
@@ -94,6 +94,18 @@ public class AuthService(
         return GenerateToken(user.ToResponseDto(roles.ToArray()));
     }
 
+    public async Task<bool> SaveUserPhoto(string userEmail, string photoPath)
+    {
+        var user = await _userManager.FindByEmailAsync(userEmail);
+        if (user is null)
+        {
+            throw new Exception($"User with Email {userEmail} not registered");
+        }
+
+        user.Photo = photoPath;
+        var updatedUser = await _userManager.UpdateAsync(user);
+        return updatedUser is not null && updatedUser.Succeeded;
+    }
 
     private UserResponseDto GenerateToken(UserResponseDto userResposneDto)
     {
