@@ -12,6 +12,7 @@ public class OrganizationItemService(
 {
     private readonly ITaskTrackerDbContext _dbContext = dbContext;
 
+
     public async Task<IEnumerable<OrganizationItemDto>> GetOrganizationItems()
     {
         var orgItems = await _dbContext.OrganizationItems
@@ -23,10 +24,35 @@ public class OrganizationItemService(
         return BuildTree(orgItems);
     }
 
+    public async Task<bool> CreateOrganizationItem(CreateOrgItemDto createOrgItemDto)
+    {
+        var newOrgItem = createOrgItemDto.ToEntity();
+        if (createOrgItemDto.ParentId is null)
+        {
+            var entry = await _dbContext.OrganizationItems.AddAsync(newOrgItem);
+            await _dbContext.SaveChangesAsync();
+            return entry is not null && entry.Entity is not null;
+        }
+
+        var existedOrgItem = await _dbContext
+            .OrganizationItems
+            .Include(x => x.Children)
+            .FirstOrDefaultAsync(x => x.Id == createOrgItemDto.ParentId.Value);
+
+        if(existedOrgItem is not null)
+        {
+            existedOrgItem.Children.Add(newOrgItem);
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+        return true;
+    }
+
     private List<OrganizationItemDto> BuildTree(List<OrganizationItemEntity> items)
     {
         var lookup = items.ToDictionary(
-            i => i.Id, 
+            i => i.Id,
             i => new OrganizationItemDto(i.Id, i.Name, i.User?.ToDto(), new List<OrganizationItemDto>()));
 
         List<OrganizationItemDto> roots = new List<OrganizationItemDto>();
@@ -45,5 +71,13 @@ public class OrganizationItemService(
 
 
         return roots;
+    }
+
+    public async Task<bool> DeleteOrganizationItem(long id)
+    {
+        return (await _dbContext.OrganizationItems
+            .Where(x => x.Id == id)
+            .ExecuteDeleteAsync()) > 0;
+
     }
 }

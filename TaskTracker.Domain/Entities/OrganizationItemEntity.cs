@@ -14,5 +14,5 @@ public class OrganizationItemEntity : BaseEntity
 
     public OrganizationItemEntity? Parent { get; set; }
 
-    public ICollection<OrganizationItemEntity> Children { get; set; } = new List<OrganizationItemEntity>();
+    public ICollection<OrganizationItemEntity> Children { get; set; } = [];
 }

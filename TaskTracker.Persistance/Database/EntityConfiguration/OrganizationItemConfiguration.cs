@@ -25,6 +25,6 @@ internal class OrganizationItemConfiguration : IEntityTypeConfiguration<Organiza
                .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasIndex(e => e.ParentId);
-        builder.HasIndex(e => e.UserId);
+
     }
 }

@@ -13,5 +13,22 @@ namespace TaskTracker.Application.Extensions.Mappers
                 orgItem.User?.ToDto(),
                 orgItem.Children?.Select(x => x.ToDto()).ToList());
         }
+
+        public static OrganizationItemEntity ToEntity(this CreateOrgItemDto orgItemDto)
+        {
+            var newOrgItem = new OrganizationItemEntity()
+            {
+                Name = orgItemDto.Name,
+                ParentId = orgItemDto.ParentId,
+                UserId = orgItemDto.UserId,
+            };
+
+            foreach (var item in orgItemDto.Children)
+            {
+                newOrgItem.Children.Add(item.ToEntity());
+            }
+           
+            return newOrgItem; 
+        }
     }
 }
