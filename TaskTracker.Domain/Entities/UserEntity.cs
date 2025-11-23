@@ -6,5 +6,5 @@ public class UserEntity : IdentityUser<long>
 {
     public string FIO { get; set; }
 
-    public string Photo { get; set; }
+    public string? Photo { get; set; }
 }

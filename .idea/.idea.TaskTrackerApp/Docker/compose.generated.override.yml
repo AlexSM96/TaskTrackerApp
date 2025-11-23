@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  tasktracker.webapi:
+    build:
+      context: "C:\\Users\\Alexander\\source\\repos\\TaskTrackerApp"
+      dockerfile: "TaskTracker.WebAPI/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/TaskTracker.WebAPI.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "tasktracker.webapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Alexander\\source\\repos\\TaskTrackerApp\\TaskTracker.WebAPI:/app:rw"
+    - "C:\\Users\\Alexander\\source\\repos\\TaskTrackerApp:/src:rw"
+    - "C:\\Users\\Alexander\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"

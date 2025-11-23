@@ -23,7 +23,7 @@ export default function RouteMunu(){
       useEffect(() => {
         const fetchData = async () => {
             const users = await fetchUsers();
-            const curr = users.filter(x => x.id === currentUser.id)[0];
+            const curr = users.filter(x => x.id === currentUser?.id)[0];
             setUser(curr);
         }
     

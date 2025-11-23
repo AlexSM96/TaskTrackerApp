@@ -50,7 +50,8 @@ public class AuthService(
         {
             Email = userResgiterDto.Email,
             UserName = Regex.Replace(userResgiterDto.Email, @"[^a-zA-Z]", ""),
-            FIO = userResgiterDto.FIO
+            FIO = userResgiterDto.FIO,
+            Photo = string.Empty,
         }, userResgiterDto.Password);
 
         if (!createdUser.Succeeded)
