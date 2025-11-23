@@ -1,0 +1,72 @@
+import { Card, Heading, Text, Badge, Button } from '@chakra-ui/react'
+import { formatDate } from '../../services/DateFormat'
+import InfoTaskForm from './InfoTaskForm'
+import { wrap } from 'framer-motion'
+
+export default function TaskCard({ task, users, onExecuteUpdate, onInWorkUpdate, onUpdate, width }){
+
+    const handleInWorkUpdate = (e) => {
+      onInWorkUpdate(task)
+    }
+
+    const handleExecuteUpdate = (e) => {
+      onExecuteUpdate(task)
+    }
+
+    return (
+        <Card.Root variant={"elevated"} width={width}>
+            <Card.Header bgColor="gray.100">
+              <div className='flex'>
+              <Heading size={"md"} className='font-bold text-x2 grow'>{task.title}</Heading>
+               {task.taskWorkStatus == 2 
+                ? <Badge colorPalette={"green"}>Задача закрыта</Badge>
+                : task.taskWorkStatus == 1
+                  ? <Badge colorPalette={"yellow"}>В работе</Badge>
+                  : <Badge colorPalette={"purple"}>Новая задача</Badge>
+                }
+                <InfoTaskForm task={task} users={users} onUpdate={onUpdate} />
+               </div>
+            </Card.Header>
+            <Card.Body color="fg.muted" bgColor="gray.100">
+              <Text textWrap={"wrap"}>{task.description}</Text>
+            </Card.Body>
+            <Card.Footer bgColor="gray.100">
+                <table className='w-full'>
+                  <thead>
+                    <tr align="left">
+                      <th className='w-1/3'>Дата создания</th>
+                      <th className='w-1/3'>Автор</th>
+                      <th className='w-1/3'>Исполнитель</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr >
+                      <td><Text textStyle={'xs'}>{formatDate(task.createdAt)}</Text></td>
+                      <td><Text textStyle={'xs'}>{task.author?.username ?? '-'}</Text></td>
+                      <td><Text textStyle={'xs'}>{task.executor?.username ?? '-'} </Text></td>
+                    </tr>
+                    {task.taskWorkStatus == 0
+                      ? <tr>
+                          <td colSpan={3}>
+                            <Button className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                    onClick={handleInWorkUpdate}>
+                              Взять в работу
+                            </Button>
+                          </td>
+                        </tr>
+                      : task.taskWorkStatus == 1
+                        ? <tr>
+                            <td colSpan={3}>
+                              <Button className='flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600'
+                                onClick={handleExecuteUpdate}>Выполнить
+                              </Button>
+                            </td>
+                          </tr> 
+                        : <tr></tr>
+                    }
+                  </tbody>
+                </table>  
+            </Card.Footer>
+        </Card.Root>
+    )
+}
