@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTracker.Application", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{234A9842-644B-4C3C-93F6-9FA54F261EE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{5A6A3296-0DF5-44E2-B28C-29F2D88EBB6F}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tasktracker-app", "tasktracker-app\tasktracker-app.esproj", "{60F4C039-88FA-9199-E70D-DB83B61DEEB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,12 @@ Global
 		{C6E2B7C5-B86D-46F2-881D-67FB0BA2040C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6E2B7C5-B86D-46F2-881D-67FB0BA2040C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6E2B7C5-B86D-46F2-881D-67FB0BA2040C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +66,7 @@ Global
 		{95EE6F8A-DB16-487D-A3C3-A43E19CBA529} = {297E4FA4-8537-42C6-ABBD-19129A9CBE1B}
 		{5B300B45-8932-4431-8098-10E9218DB783} = {52F8C22D-39AC-4A70-825D-5501DB3AEFF8}
 		{C6E2B7C5-B86D-46F2-881D-67FB0BA2040C} = {6D003423-E723-4912-AF81-33A66BD04FBC}
+		{60F4C039-88FA-9199-E70D-DB83B61DEEB6} = {5A6A3296-0DF5-44E2-B28C-29F2D88EBB6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4C0DD888-F465-45C0-B80E-0BAD484510F8}
