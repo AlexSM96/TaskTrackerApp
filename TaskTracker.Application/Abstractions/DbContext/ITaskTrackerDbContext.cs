@@ -12,6 +12,8 @@ public interface ITaskTrackerDbContext
     public DbSet<TaskEntity> Tasks { get; }
 
     public DbSet<OrganizationItemEntity> OrganizationItems { get; } 
+    
+    public DbSet<NotificationEntity> Notifications { get; }
 
     public DbSet<CommentEntity> Comments { get; }
 

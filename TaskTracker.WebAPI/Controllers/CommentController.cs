@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using TaskTracker.Application.Abstractions.CommentServices;
+using TaskTracker.Application.Abstractions.Notifications;
 using TaskTracker.Application.Model.CommentModels;
+using TaskTracker.Application.Model.Notifications;
 
 namespace TaskTracker.WebAPI.Controllers;
 
@@ -21,7 +24,6 @@ public class CommentController(ICommentService commentService) : ApiBaseControll
     {
         bool isCreated = await _commentService.AddComment(commentDto);
         if (!isCreated) return BadRequest();
-
         return Ok(isCreated);  
     }
 
@@ -31,7 +33,7 @@ public class CommentController(ICommentService commentService) : ApiBaseControll
     {
         bool isUpdated = await _commentService.UpdateComment(updateCommentDto);
         if (!isUpdated) return BadRequest();
-
+        
         return Ok(isUpdated);
     }
 }

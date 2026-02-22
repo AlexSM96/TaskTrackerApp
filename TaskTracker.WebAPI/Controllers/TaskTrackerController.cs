@@ -1,18 +1,22 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskTracker.Application.Abstractions.Notifications;
 using TaskTracker.Application.Abstractions.TaskServices;
 using TaskTracker.Application.Model.Filters;
+using TaskTracker.Application.Model.Notifications;
 using TaskTracker.Application.Model.TaskModels;
 
 namespace TaskTracker.WebAPI.Controllers;
 
 
 [Route("tasks")]
-public class TaskTrackerController(ITaskTrackService taskTrackService) : ApiBaseController
+public class TaskTrackerController(ITaskTrackService taskTrackService) 
+    : ApiBaseController
 {
     private readonly ITaskTrackService _taskTrackService = taskTrackService;
 
-   // [Authorize]
+    // [Authorize]
     [HttpGet("get")]
     public async Task<IActionResult> GetTasks([FromQuery] TaskFilter filter)
     {

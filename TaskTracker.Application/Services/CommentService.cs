@@ -1,14 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using TaskTracker.Application.Abstractions.CommentServices;
 using TaskTracker.Application.Abstractions.DbContext;
+using TaskTracker.Application.Abstractions.Notifications;
 using TaskTracker.Application.Extensions.Mappers;
 using TaskTracker.Application.Model.CommentModels;
+using TaskTracker.Application.Model.Notifications;
 
 namespace TaskTracker.Application.Services
 {
-    public class CommentService(ITaskTrackerDbContext context) : ICommentService
+    public class CommentService(ITaskTrackerDbContext context, 
+        INotificationService notificationService) : ICommentService
     {
         private readonly ITaskTrackerDbContext _context = context;
+        private readonly INotificationService _notificationService = notificationService;
 
         public async Task<IEnumerable<CommentDto>> GetComments(long taskId)
         {
@@ -25,17 +30,23 @@ namespace TaskTracker.Application.Services
         {
             try
             {
-                await _context.Comments.AddAsync(new Domain.Entities.CommentEntity()
+                var comment = await _context.Comments.AddAsync(new Domain.Entities.CommentEntity()
                 {
                     Text = createCommentDto.Text,
                     AuthorId = createCommentDto.AuthorId,
                     TaskId = createCommentDto.TaskId,
                     CreatedAt = DateTime.UtcNow,
                 });
-
-
+                
                 await _context.SaveChangesAsync();
-
+                await _notificationService.SendNotificationAsync(new NotificationDto()
+                {
+                    Message = "Новый комментарий к задаче: " + comment.Entity.TaskId,
+                    Data = JsonSerializer.Serialize(comment.Entity),
+                    UserIds = [],
+                    TaskIds = [comment.Entity.TaskId],
+                    IsRead = false,
+                });
                 return true;
             }
             catch(Exception e)

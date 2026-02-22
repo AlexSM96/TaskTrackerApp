@@ -14,6 +14,8 @@ public class TaskTrackerDbContext(DbContextOptions<TaskTrackerDbContext> options
     public DbSet<OrganizationItemEntity> OrganizationItems { get; set; }
 
     public DbSet<CommentEntity> Comments { get; set; }
+    
+    public DbSet<NotificationEntity> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -22,6 +24,7 @@ public class TaskTrackerDbContext(DbContextOptions<TaskTrackerDbContext> options
         builder.ApplyConfiguration(new UserEntityConfiguration());
         builder.ApplyConfiguration(new OrganizationItemConfiguration());
         builder.ApplyConfiguration(new CommentEntityConfiguration());
+        builder.ApplyConfiguration(new NotificationEntityConfiguration());
         base.OnModelCreating(builder);
     }
 }

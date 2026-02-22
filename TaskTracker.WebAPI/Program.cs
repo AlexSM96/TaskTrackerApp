@@ -22,6 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Services.CreateDbIfNotExist();
+app.AddMapExtensions();
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
