@@ -57,7 +57,7 @@ public static class ServiceColectionsExtension
             option.AddPolicy("User", policy => policy.RequireRole(Roles.User));
         })
         .AddTransient<IAuthService, AuthService>();
-
+        
         builder.Services
             .AddDefaultIdentity<UserEntity>(opt =>
             {

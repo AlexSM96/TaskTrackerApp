@@ -49,7 +49,7 @@ public static class ServiceColelctionExtension
         {
             opt.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("http://192.168.3.9:5173");
+                policy.WithOrigins("http://localhost:5000", "http://localhost:5173");
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
                 policy.AllowCredentials();

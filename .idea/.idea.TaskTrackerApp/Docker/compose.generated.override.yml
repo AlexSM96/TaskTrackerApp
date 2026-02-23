@@ -2,8 +2,8 @@
 services:
   tasktracker.webapi:
     build:
-      context: "C:\\Users\\Alexander\\source\\repos\\TaskTrackerApp"
-      dockerfile: "TaskTracker.WebAPI/Dockerfile"
+      context: "C:\\Users\\Alexander\\source\\repos\\TaskTrackerApp\\TaskTracker.WebAPI"
+      dockerfile: "Dockerfile"
       target: "base"
     command: []
     entrypoint:

@@ -2,8 +2,8 @@
   tasktracker.webapi:
     image: tasktracker.webapi
     build:
-      context: .
-      dockerfile: TaskTracker.WebAPI/Dockerfile
+      context: ./TaskTracker.WebAPI
+      dockerfile: Dockerfile
     ports:
       - "5000:8080"
     environment:
@@ -48,3 +48,4 @@
     
 volumes:
   pgdata:
+
